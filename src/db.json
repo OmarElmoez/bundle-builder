@@ -126,14 +126,16 @@
       "imageUrl": "/assets/images/wyze-microSD-card-(256GB).webp"
     }
   ],
-  "plan": {
-    "id": "cam-unlimited",
-    "name": "Cam Unlimited",
-    "frequency": "mo",
-    "originalPrice": 12.99,
-    "salePrice": 9.99,
-    "imageUrl": "/assets/images/cam-unlimited-plan.webp"
-  },
+  "plans": [
+    {
+      "id": "cam-unlimited",
+      "name": "Cam Unlimited",
+      "frequency": "mo",
+      "originalPrice": 12.99,
+      "salePrice": 9.99,
+      "imageUrl": "/assets/images/cam-unlimited-plan.webp"
+    }
+  ],
   "shipping": {
     "method": "Fast Shipping",
     "cost": 5.99,
