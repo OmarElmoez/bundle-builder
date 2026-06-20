@@ -6,6 +6,7 @@
       "name": "Wyze Cam v4",
       "description": "The clearest Wyze Cam ever made.",
       "originalPrice": 35.98,
+      "isDefault": true,
       "salePrice": 27.98,
       "discountPercent": 22,
       "imageUrl": "/assets/images/wyze-cam-v4.webp",
@@ -34,6 +35,7 @@
       "description": "360° pan and 180° tilt security camera.",
       "originalPrice": 39.98,
       "salePrice": 34.98,
+      "isDefault": true,
       "discountPercent": 12,
       "imageUrl": "/assets/images/wyze-cam-pan-v3.webp",
       "variants": [
@@ -78,13 +80,14 @@
       "originalPrice": null,
       "salePrice": 69.98,
       "imageUrl": "/assets/images/wyze-duo-cam-doorbell.webp",
-      "variants": null
+      "variants": []
     },
     {
       "id": "wyze-battery-cam-pro",
       "name": "Wyze Battery Cam Pro",
       "description": "Protect anywhere. See everything in 2.5K HDR. No power outlet or electricity needed.",
       "originalPrice": null,
+      "imageUrl": "/assets/images/wyze-battery-cam-pro.webp",
       "salePrice": 89.98,
       "variants": [
         {
