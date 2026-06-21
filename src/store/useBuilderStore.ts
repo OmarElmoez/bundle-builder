@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import data from "@/db.json";
-import SELECTION_KEYS from "@/utils/selection-keys";
+import SELECTION_KEYS, { type CategoryKey } from "@/utils/selection-keys";
 import createItemKey from "@/utils/createItemKey";
 
 const getDefaultProductKey = (product) => {
@@ -35,7 +35,6 @@ const useBuilderStore = create(
         },
       },
 
-      // 4. The single smart action for updates
       updateQuantity: ({ category, productId, variantColor, delta }) => {
         set((state) => {
           const key = createItemKey({productId, variantColor});
@@ -61,12 +60,54 @@ const useBuilderStore = create(
         });
       },
 
-      // Optional helper for the Camera Card's purple border logic
+      getCartDetails: () => {
+        const { selections } = get();
+        const lineItems = [];
+
+        Object.entries(selections).forEach(([categoryKey, items]) => {
+          Object.entries(items).forEach(([itemKey, quantity]) => {
+            // 1. Split the composite key safely
+            const [baseProductId, variantColor] = itemKey.split('::');
+            
+            // 2. Find the product
+            const productArray = data[categoryKey as CategoryKey] || [];
+            const product = productArray.find((p) => p.id === baseProductId);
+            
+            if (product) {
+              // 3. Find specific variant thumbnail if it exists
+              const variant = variantColor && "variants" in product
+                ? product.variants.find(v => v.color === variantColor)
+                : null;
+
+              // 4. Push the rich object to our array
+              lineItems.push({
+                key: itemKey, // e.g., "wyze-cam-v4::White"
+                category: categoryKey,
+                productId: baseProductId,
+                name: product.name,
+                color: variantColor || null,
+                imageUrl: variant ? variant.thumbnailUrl : product.imageUrl,
+                quantity: quantity,
+                unitPrice: product.salePrice,
+                lineTotal: Number((product.salePrice * quantity).toFixed(2)),
+              });
+            }
+          });
+        });
+
+        return lineItems;
+      },
+
       getProductTotalQuantity: (category, productId) => {
         const categoryItems = get().selections[category] || {};
         return Object.entries(categoryItems).reduce((total, [key, qty]) => {
           return key.startsWith(productId) ? total + qty : total;
         }, 0);
+      },
+
+      getCartTotal: () => {
+        const details = get().getCartDetails();
+        return Number(details.reduce((sum, item) => sum + item.lineTotal, 0).toFixed(2));
       }
     }),
     {
