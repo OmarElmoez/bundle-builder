@@ -1,19 +1,28 @@
+import { BUILDER_STEPS } from "@/constants";
 import useBuilderStore from "@/store/useBuilderStore";
+import ProductList from "./ProductList";
 
-const AccordionItem = ({ step, isOpen, onToggle, totalSteps }) => {
+const totalSteps = BUILDER_STEPS.length;
 
+const AccordionItem = ({
+  step,
+  isOpen,
+  onToggle,
+  onAdvance,
+  nextStepTitle,
+}) => {
   const selections = useBuilderStore((state) => state.selections);
-  
+
   const getStatusText = () => {
     const selectedItems = selections[step.selectionKey] || [];
     const count = selectedItems.length;
-    return count > 0 ? `${count} selected` : 'None selected';
+    return count > 0 ? `${count} selected` : "None selected";
   };
 
   return (
-    <div 
+    <div
       className={`transition-all duration-300 ${
-        isOpen ? 'bg-[#EDF4FF] pt-3.75' : 'bg-white'
+        isOpen ? "bg-[#EDF4FF] pt-3.75" : "bg-white"
       } ${isOpen && "rounded-[10px]"}`}
     >
       <button
@@ -24,16 +33,18 @@ const AccordionItem = ({ step, isOpen, onToggle, totalSteps }) => {
           {`STEP ${step?.id} OF ${totalSteps}`}
         </span>
 
-        <div className={`flex items-center justify-between py-5 px-3.75 border-[0.5px] border-[#1F1F1F] border-r-0 border-l-0
-          ${isOpen && "border-b-0"}`}>
+        <div
+          className={`flex items-center justify-between py-5 px-3.75 border-[0.5px] border-[#1F1F1F] border-r-0 border-l-0
+          ${isOpen && "border-b-0"}`}
+        >
           <div className="flex items-center gap-4">
-            <div 
+            <div
               className={`flex items-center justify-center text-gray-600 transition-all duration-300 ease-in-out w-5 h-5 md:w-6.5 md:h-6.5 lg:w-7.5 lg:h-7.5`}
             >
               <img src={step.icon} alt="" />
             </div>
 
-            <h2 
+            <h2
               className={`font-semibold text-gray-900 transition-all duration-300 ease-in-out text-[18px] md:text-[22px] lg:text-[28px]`}
             >
               {step.title}
@@ -42,22 +53,34 @@ const AccordionItem = ({ step, isOpen, onToggle, totalSteps }) => {
 
           <div className="flex items-center gap-2 text-[#4E2FD2] text-sm">
             <span className="text-sm font-bold">{getStatusText()}</span>
-            <img src="/assets/icons/carrotArrow.svg" className={`transition-all duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`} alt="" />
+            <img
+              src="/assets/icons/carrotArrow.svg"
+              className={`transition-all duration-300 ${isOpen ? "rotate-180" : "rotate-0"}`}
+              alt=""
+            />
           </div>
         </div>
       </button>
 
-      <div 
+      <div
         className={`overflow-hidden transition-all duration-300 ease-in-out ${
-          isOpen ? 'max-h-200 opacity-100 pb-6 px-6' : 'max-h-0 opacity-0'
+          isOpen ? "max-h-200 opacity-100 pb-6 px-3.75" : "max-h-0 opacity-0"
         }`}
       >
-        <div className="">
-          <p className="text-gray-500">Component content placeholder...</p>
-        </div>
+        <ProductList category={step.selectionKey} />
+        {nextStepTitle && (
+          <div className="flex justify-center mt-3.75">
+            <button
+              onClick={onAdvance}
+              className="w-66.5 py-1.25 cursor-pointer text-[#4E2FD2] text-[18px] border border-[#4E2FD2] rounded-[7px] font-semibold"
+            >
+              Next: {nextStepTitle}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default AccordionItem
+export default AccordionItem;

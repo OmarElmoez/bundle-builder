@@ -2,8 +2,6 @@ import { BUILDER_STEPS } from "@/constants";
 import { useState } from "react";
 import AccordionItem from "./AccordionItem";
 
-const totalSteps = BUILDER_STEPS.length;
-
 const BuilderAccordion = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(1);
 
@@ -11,17 +9,30 @@ const BuilderAccordion = () => {
     setOpenIndex((prevIndex) => (prevIndex === id ? null : id));
   };
 
+  const handleAdvanceToNextStep = (nextStep) => {
+    if (nextStep) {
+      setOpenIndex(nextStep.id);
+    } else {
+      setOpenIndex(null);
+    }
+  };
+
   return (
-    <div className="max-w-4xl mx-auto mt-10 overflow-hidden bg-white space-y-3.25">
-      {BUILDER_STEPS?.map((step) => (
-        <AccordionItem
-          key={step.id}
-          step={step}
-          totalSteps={totalSteps}
-          isOpen={openIndex === step.id}
-          onToggle={() => handleToggle(step.id)}
-        />
-      ))}
+    <div className="max-w-303.75 mx-auto mt-10 overflow-hidden bg-white space-y-3.25">
+      {BUILDER_STEPS.map((step, index) => {
+        const nextStep = BUILDER_STEPS[index + 1];
+
+        return (
+          <AccordionItem
+            key={step.id}
+            step={step}
+            isOpen={openIndex === step.id}
+            onAdvance={() => handleAdvanceToNextStep(nextStep)}
+            onToggle={() => handleToggle(step.id)}
+            nextStepTitle={nextStep?.title}
+          />
+        );
+      })}
     </div>
   );
 };

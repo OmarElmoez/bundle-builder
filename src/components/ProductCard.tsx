@@ -29,7 +29,7 @@ const ProductCard = ({ product, categoryKey }) => {
 
   return (
     <article
-      className={`relative flex flex-col gap-4.75 border-2 bg-white rounded-[10px] py-3.75 px-2.75 w-full max-w-[224px] ${
+      className={`relative flex flex-col gap-4.75 border-2 bg-white rounded-[10px] py-3.75 px-2.75 ${
         isSelected ? "border-[#4E2FD2B2]" : "border-transparent"
       }`}
     >
@@ -40,17 +40,17 @@ const ProductCard = ({ product, categoryKey }) => {
           </span>
         )}
 
-        <figure className="flex justify-center items-center pt-6 w-50.5 h-29.25 mx-auto">
+        <figure className="flex justify-center items-center pt-6 w-38 h-38 mx-auto ">
           <img src={product.imageUrl} alt={product.name} className="h-full" />
         </figure>
       </header>
 
       <div className="flex flex-col grow">
-        <h3 className="text-[16px] lg:text-[18px] font-semibold text-[#1F1F1F] leading-tight">
+        <h3 className="text-[16px] font-semibold text-[#1F1F1F] leading-tight">
           {product.name}
         </h3>
 
-        <p className="text-[12px] lg:text-[14px] text-[#1F1F1FBF] leading-relaxed mt-2">
+        <p className="text-[12px] lg:text-[14px] text-[#1F1F1FBF] leading-relaxed mt-2 grow">
           {product.description}{" "}
           <a href="#" className="text-[#0000EE] font-medium underline">
             Learn More
