@@ -1,6 +1,7 @@
 import { BUILDER_STEPS } from "@/constants";
-import useBuilderStore from "@/store/useBuilderStore";
 import ProductList from "./ProductList";
+import getStatusText from "@/utils/getStatusText";
+import useBuilderStore from "@/store/useBuilderStore";
 
 const totalSteps = BUILDER_STEPS.length;
 
@@ -11,19 +12,8 @@ const AccordionItem = ({
   onAdvance,
   nextStepTitle,
 }) => {
-  const selections = useBuilderStore((state) => state.selections);
 
-  const getStatusText = () => {
-    const selectedItems = selections[step.selectionKey] || {};
-    const uniqueProducts = new Set(
-      Object.entries(selectedItems)
-        .filter(([, quantity]) => quantity > 0)
-        .map(([key]) => key.split("::")[0]),
-    );
-
-    const count = uniqueProducts.size;
-    return count > 0 ? `${count} selected` : "No selections";
-  };
+    const selections = useBuilderStore((state) => state.selections);
 
   return (
     <div
@@ -58,7 +48,7 @@ const AccordionItem = ({
           </div>
 
           <div className="flex items-center gap-2 text-[#4E2FD2] text-sm">
-            <span className="text-sm font-bold">{getStatusText()}</span>
+            <span className="text-sm font-bold">{getStatusText(selections, step.selectionKey)}</span>
             <img
               src="/assets/icons/carrotArrow.svg"
               className={`transition-all duration-300 ${isOpen ? "rotate-180" : "rotate-0"}`}
