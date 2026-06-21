@@ -14,9 +14,15 @@ const AccordionItem = ({
   const selections = useBuilderStore((state) => state.selections);
 
   const getStatusText = () => {
-    const selectedItems = selections[step.selectionKey] || [];
-    const count = selectedItems.length;
-    return count > 0 ? `${count} selected` : "None selected";
+    const selectedItems = selections[step.selectionKey] || {};
+    const uniqueProducts = new Set(
+      Object.entries(selectedItems)
+        .filter(([, quantity]) => quantity > 0)
+        .map(([key]) => key.split("::")[0]),
+    );
+
+    const count = uniqueProducts.size;
+    return count > 0 ? `${count} selected` : "No selections";
   };
 
   return (
