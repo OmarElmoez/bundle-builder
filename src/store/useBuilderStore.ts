@@ -66,22 +66,20 @@ const useBuilderStore = create(
 
         Object.entries(selections).forEach(([categoryKey, items]) => {
           Object.entries(items).forEach(([itemKey, quantity]) => {
-            // 1. Split the composite key safely
             const [baseProductId, variantColor] = itemKey.split('::');
             
-            // 2. Find the product
             const productArray = data[categoryKey as CategoryKey] || [];
             const product = productArray.find((p) => p.id === baseProductId);
             
             if (product) {
-              // 3. Find specific variant thumbnail if it exists
               const variant = variantColor && "variants" in product
                 ? product.variants.find(v => v.color === variantColor)
                 : null;
 
-              // 4. Push the rich object to our array
+              const originalPrice = "originalPrice" in product ? product.originalPrice : product.salePrice;
+
               lineItems.push({
-                key: itemKey, // e.g., "wyze-cam-v4::White"
+                key: itemKey,
                 category: categoryKey,
                 productId: baseProductId,
                 name: product.name,
@@ -89,6 +87,7 @@ const useBuilderStore = create(
                 imageUrl: variant ? variant.thumbnailUrl : product.imageUrl,
                 quantity: quantity,
                 unitPrice: product.salePrice,
+                originalPrice,
                 lineTotal: Number((product.salePrice * quantity).toFixed(2)),
               });
             }

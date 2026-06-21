@@ -1,93 +1,166 @@
+import React from "react";
 import useBuilderStore from "@/store/useBuilderStore";
 
 const ReviewSection = () => {
+  // Listen to raw state to ensure instant re-renders
   const selections = useBuilderStore((state) => state.selections);
   const getCartDetails = useBuilderStore((state) => state.getCartDetails);
   const getCartTotal = useBuilderStore((state) => state.getCartTotal);
   const updateQuantity = useBuilderStore((state) => state.updateQuantity);
 
   const cartItems = getCartDetails();
-
   const cartTotal = getCartTotal();
 
-  return (
-    <div className="bg-gray-50 p-6 rounded-xl">
-      <h2 className="text-xl font-bold mb-4">Order Summary</h2>
+  const groupedItems = cartItems.reduce((acc, item) => {
+    if (!acc[item.category]) {
+      acc[item.category] = [];
+    }
+    acc[item.category].push(item);
+    return acc;
+  }, {});
 
-      <ul className="space-y-4">
-        {cartItems.map((item) => (
-          <li
-            key={item.key}
-            className="flex items-center justify-between py-2 border-b border-gray-200"
-          >
-            {/* Left Side: Image and Name/Color */}
-            <div className="flex items-center gap-3">
-              <img
-                src={item.imageUrl}
-                alt={item.name}
-                className="w-10 h-10 object-contain"
-              />
-              <div>
-                <p className="text-[14px] font-semibold text-gray-900">
-                  {item.name}
-                </p>
-                {item.color && (
-                  <p className="text-[12px] text-gray-500">
-                    Color: {item.color}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* Right Side: Adjusters and Line Subtotal */}
-            <div className="flex items-center gap-4">
-              {/* Quantity Controls inside the Review panel */}
-              <div className="flex items-center gap-2 border border-gray-200 rounded px-1">
-                <button
-                  onClick={() =>
-                    updateQuantity({
-                      category: item.category,
-                      productId: item.productId,
-                      variantColor: item.color,
-                      delta: -1,
-                    })
-                  }
-                  className="px-1 text-gray-500"
-                >
-                  &minus;
-                </button>
-                <span className="text-[13px] w-4 text-center">
-                  {item.quantity}
-                </span>
-                <button
-                  onClick={() =>
-                    updateQuantity({
-                      category: item.category,
-                      productId: item.productId,
-                      variantColor: item.color,
-                      delta: 1,
-                    })
-                  }
-                  className="px-1 text-gray-500"
-                >
-                  &#43;
-                </button>
-              </div>
-
-              {/* The dynamic price for THIS specific line item */}
-              <p className="text-[14px] font-medium min-w-[60px] text-right">
-                ${item.lineTotal}
-              </p>
-            </div>
-          </li>
-        ))}
-      </ul>
-
-      {/* Grand Total Footer */}
-      <div className="mt-6 pt-4 flex justify-between items-center">
-        <span className="text-lg font-medium text-gray-900">Total Price</span>
-        <span className="text-2xl font-bold text-[#4f38d4]">${cartTotal}</span>
+  if (cartItems.length === 0) {
+    return (
+      <div className="bg-[#f2f5fa] p-8 rounded-2xl text-center">
+        <h2 className="text-xl font-bold text-gray-900 mb-2">Your security system</h2>
+        <p className="text-gray-500 text-sm">Your cart is currently empty.</p>
       </div>
+    );
+  }
+
+  return (
+    <div className="bg-[#f2f5fa] p-6 lg:p-8 rounded-2xl flex flex-col lg:flex-row gap-10">
+      
+      <div className="flex-1">
+        <header className="mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-1">
+            Your security system
+          </h2>
+          <p className="text-gray-500 text-[14px]">
+            Review your personalized protection system designed to keep what matters most safe.
+          </p>
+        </header>
+
+        <div className="space-y-6">
+          {Object.entries(groupedItems).map(([category, items]) => (
+            <div key={category}>
+              <h3 className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-3">
+                {category}
+              </h3>
+
+              <ul className="space-y-3">
+                {items.map((item) => (
+                  <li key={item.key} className="flex items-center justify-between group">
+                    
+                    <div className="flex items-center gap-4">
+                      <div className="bg-white p-2 rounded-xl w-14 h-14 flex items-center justify-center shrink-0">
+                        <img
+                          src={item.imageUrl}
+                          alt={item.name}
+                          className="max-w-full max-h-full object-contain"
+                        />
+                      </div>
+                      <div>
+                        <p className="text-[15px] font-medium text-gray-900">
+                          {item.name}
+                        </p>
+                        {item.color && (
+                          <p className="text-[12px] text-gray-500">
+                            Color: {item.color}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-6">
+                      
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={() =>
+                            updateQuantity({
+                              category: item.category,
+                              productId: item.productId,
+                              variantColor: item.color,
+                              delta: -1,
+                            })
+                          }
+                          className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors text-lg"
+                        >
+                          &minus;
+                        </button>
+                        <span className="text-[14px] font-medium w-4 text-center">
+                          {item.quantity}
+                        </span>
+                        <button
+                          onClick={() =>
+                            updateQuantity({
+                              category: item.category,
+                              productId: item.productId,
+                              variantColor: item.color,
+                              delta: 1,
+                            })
+                          }
+                          className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors text-lg"
+                        >
+                          &#43;
+                        </button>
+                      </div>
+
+                      <div className="flex flex-col items-end min-w-[60px]">
+                        {/* Note: To show the crossed-out original price dynamically, 
+                           you will need to pass `originalPrice` from your store's getCartDetails(). 
+                           Here is how you format it when you have it:
+                        */}
+                        {item.originalPrice && item.originalPrice > item.unitPrice && (
+                          <span className="text-[12px] text-gray-400 line-through leading-none mb-1">
+                            ${(item.originalPrice * item.quantity).toFixed(2)}
+                          </span>
+                        )}
+                        <span className="text-[15px] font-bold text-[#4f38d4] leading-none">
+                          {item.unitPrice === 0 ? "FREE" : `$${item.lineTotal}`}
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              
+              <hr className="mt-6 border-gray-200/60" />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="w-full lg:w-[340px] flex flex-col pt-2 lg:pt-16">
+        <div className="flex flex-col items-end w-full mb-4">
+           <div className="flex justify-between w-full items-end mb-2">
+              <span className="bg-[#4f38d4] text-white text-[11px] font-bold px-2 py-1 rounded-full">
+                as low as $19.19/mo
+              </span>
+              <div className="text-right">
+                <span className="text-sm text-gray-400 line-through mr-2">
+                  {/* Static placeholder based on your image - make dynamic if needed */}
+                  $238.81 
+                </span>
+                <span className="text-2xl font-bold text-[#4f38d4]">
+                  ${cartTotal}
+                </span>
+              </div>
+           </div>
+           <p className="text-[#00a862] text-[12px] font-medium w-full text-center mt-2">
+              Congrats! You're saving $50.92 on your security bundle!
+           </p>
+        </div>
+
+        <button className="w-full bg-[#4f38d4] text-white py-3.5 rounded-lg font-bold hover:bg-[#3d2ba8] transition-colors mb-3">
+          Checkout
+        </button>
+        
+        <button className="w-full text-[13px] text-gray-500 underline hover:text-gray-800 transition-colors">
+          Save my system for later
+        </button>
+      </div>
+
     </div>
   );
 };
