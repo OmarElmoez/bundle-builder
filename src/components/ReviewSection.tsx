@@ -4,12 +4,25 @@ import useBuilderStore from "@/store/useBuilderStore";
 const ReviewSection = () => {
   // Listen to raw state to ensure instant re-renders
   const selections = useBuilderStore((state) => state.selections);
+  void selections;
   const getCartDetails = useBuilderStore((state) => state.getCartDetails);
   const getCartTotal = useBuilderStore((state) => state.getCartTotal);
   const updateQuantity = useBuilderStore((state) => state.updateQuantity);
 
   const cartItems = getCartDetails();
   const cartTotal = getCartTotal();
+  const cartOriginalTotal = Number(
+    cartItems
+      .reduce(
+        (sum, item) =>
+          sum + (Number(item.originalPrice ?? item.unitPrice) * item.quantity),
+        0,
+      )
+      .toFixed(2),
+  );
+  const cartSavings = Number(Math.max(0, cartOriginalTotal - cartTotal).toFixed(2));
+  const hasSavings = cartOriginalTotal > cartTotal;
+  const formatPrice = (value) => `$${Number(value).toFixed(2)}`;
 
   const groupedItems = cartItems.reduce((acc, item) => {
     if (!acc[item.category]) {
@@ -107,10 +120,6 @@ const ReviewSection = () => {
                       </div>
 
                       <div className="flex flex-col items-end min-w-[60px]">
-                        {/* Note: To show the crossed-out original price dynamically, 
-                           you will need to pass `originalPrice` from your store's getCartDetails(). 
-                           Here is how you format it when you have it:
-                        */}
                         {item.originalPrice && item.originalPrice > item.unitPrice && (
                           <span className="text-[12px] text-gray-400 line-through leading-none mb-1">
                             ${(item.originalPrice * item.quantity).toFixed(2)}
@@ -138,18 +147,21 @@ const ReviewSection = () => {
                 as low as $19.19/mo
               </span>
               <div className="text-right">
-                <span className="text-sm text-gray-400 line-through mr-2">
-                  {/* Static placeholder based on your image - make dynamic if needed */}
-                  $238.81 
-                </span>
+                {hasSavings && (
+                  <span className="text-sm text-gray-400 line-through mr-2">
+                    {formatPrice(cartOriginalTotal)}
+                  </span>
+                )}
                 <span className="text-2xl font-bold text-[#4f38d4]">
-                  ${cartTotal}
+                  {formatPrice(cartTotal)}
                 </span>
               </div>
            </div>
-           <p className="text-[#00a862] text-[12px] font-medium w-full text-center mt-2">
-              Congrats! You're saving $50.92 on your security bundle!
-           </p>
+           {hasSavings && (
+             <p className="text-[#00a862] text-[12px] font-medium w-full text-center mt-2">
+                Congrats! You're saving {formatPrice(cartSavings)} on your security bundle!
+             </p>
+           )}
         </div>
 
         <button className="w-full bg-[#4f38d4] text-white py-3.5 rounded-lg font-bold hover:bg-[#3d2ba8] transition-colors mb-3">
