@@ -1,6 +1,6 @@
 import useBuilderStore from "@/store/useBuilderStore";
 import createItemKey from "@/utils/createItemKey";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ProductCard = ({ product, categoryKey }) => {
   const updateQuantity = useBuilderStore((state) => state.updateQuantity);
@@ -8,10 +8,12 @@ const ProductCard = ({ product, categoryKey }) => {
   const totalProductQuantity = useBuilderStore((state) =>
     state.getProductTotalQuantity(categoryKey, product.id),
   );
-  const hasVariants = Boolean(product.variants && product.variants.length > 0);
-  const [activeColor, setActiveColor] = useState(() =>
-    hasVariants ? product.variants[0].color : null,
-  );
+  const getDefaultVariantColor = () =>
+    product.variants?.find((variant) => variant.isDefault)?.color ??
+    product.variants?.[0]?.color ??
+    null;
+
+  const [activeColor, setActiveColor] = useState(getDefaultVariantColor);
 
   const activeKey = createItemKey({
     productId: product.id,

@@ -13,18 +13,18 @@
       "variants": [
         {
           "color": "White",
-          "isDefault": true,
           "quantity": 1,
           "thumbnailUrl": "/assets/variants/wyze-cam-v4-white.webp"
         },
         {
           "color": "Grey",
-          "quantity": 0,
+          "isDefault": true,
+          "quantity": 5,
           "thumbnailUrl": "/assets/variants/wyze-cam-v4-grey.webp"
         },
         {
           "color": "Black",
-          "quantity": 0,
+          "quantity": 3,
           "thumbnailUrl": "/assets/variants/wyze-cam-v4-black.webp"
         }
       ]
@@ -41,13 +41,13 @@
       "variants": [
         {
           "color": "White",
-          "isDefault": true,
           "quantity": 2,
           "thumbnailUrl": "/assets/variants/wyze-cam-pan-v3-white.webp"
         },
         {
           "color": "Black",
-          "quantity": 0,
+          "quantity": 3,
+          "isDefault": true,
           "thumbnailUrl": "/assets/variants/wyze-cam-pan-v3-black.webp"
         }
       ]
@@ -136,6 +136,7 @@
       "frequency": "mo",
       "originalPrice": 12.99,
       "salePrice": 9.99,
+      "quantity": 1,
       "imageUrl": "/assets/images/cam-unlimited-plan.webp"
     }
   ],
