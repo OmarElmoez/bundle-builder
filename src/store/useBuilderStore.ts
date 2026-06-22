@@ -79,6 +79,9 @@ const useBuilderStore = create(
               const originalPrice = "originalPrice" in product
                 ? product.originalPrice
                 : null;
+              const isFree = "isFree" in product ? Boolean(product.isFree) : false;
+              const unitPrice = Number(product.salePrice ?? 0);
+              const lineTotal = isFree ? 0 : Number((unitPrice * quantity).toFixed(2));
 
               lineItems.push({
                 key: itemKey,
@@ -88,9 +91,11 @@ const useBuilderStore = create(
                 color: variantColor || null,
                 imageUrl: variant ? variant.thumbnailUrl : product.imageUrl,
                 quantity: quantity,
-                unitPrice: product.salePrice,
+                unitPrice,
                 originalPrice,
-                lineTotal: Number((product.salePrice * quantity).toFixed(2)),
+                frequency: "frequency" in product ? product.frequency : null,
+                isFree,
+                lineTotal,
               });
             }
           });

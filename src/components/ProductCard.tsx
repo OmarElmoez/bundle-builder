@@ -5,9 +5,6 @@ import { useState } from "react";
 const ProductCard = ({ product, categoryKey }) => {
   const updateQuantity = useBuilderStore((state) => state.updateQuantity);
 
-  // const categorySelections = useBuilderStore(
-  //   (state) => state.selections[categoryKey] || {},
-  // );
   const totalProductQuantity = useBuilderStore((state) =>
     state.getProductTotalQuantity(categoryKey, product.id),
   );
@@ -20,7 +17,6 @@ const ProductCard = ({ product, categoryKey }) => {
     productId: product.id,
     variantColor: activeColor,
   });
-  // const currentQuantity = categorySelections[activeKey] || 0;
   const isSelected = totalProductQuantity > 0;
 
   const currentQuantity = useBuilderStore(
