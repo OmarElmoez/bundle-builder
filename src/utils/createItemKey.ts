@@ -4,8 +4,8 @@ const createItemKey = ({
 }: {
   productId: string;
   variantColor?: string | null;
-}) => {
-  if (!productId) return null;
+}): string => {
+  if (!productId) return "";
   // If the color exists (and isn't null/undefined), append it. Otherwise, just use the ID.
   return variantColor ? `${productId}::${variantColor}` : productId;
 };

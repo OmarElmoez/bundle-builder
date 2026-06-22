@@ -1,9 +1,10 @@
 import useBuilderStore from "@/store/useBuilderStore";
 import createItemKey from "@/utils/createItemKey";
 import data from "@/db.json";
-import { useEffect, useState } from "react";
+import type { ProductCardProps } from "@/types/builder";
+import { useState } from "react";
 
-const ProductCard = ({ product, categoryKey }) => {
+const ProductCard = ({ product, categoryKey }: ProductCardProps) => {
   const updateQuantity = useBuilderStore((state) => state.updateQuantity);
 
   const totalProductQuantity = useBuilderStore((state) =>
@@ -27,13 +28,15 @@ const ProductCard = ({ product, categoryKey }) => {
   );
   const unitSalePrice = Number(product.salePrice ?? 0);
   const lineSalePrice = Number((unitSalePrice * currentQuantity).toFixed(2));
-  const hasOriginalPrice = typeof product.originalPrice === "number";
-  const lineOriginalPrice = hasOriginalPrice
-    ? Number((product.originalPrice * currentQuantity).toFixed(2))
-    : null;
+  const originalPrice =
+    typeof product.originalPrice === "number" ? product.originalPrice : null;
+  const lineOriginalPrice =
+    originalPrice === null
+      ? null
+      : Number((originalPrice * currentQuantity).toFixed(2));
   const currency = data.currency;
 
-  const formatPrice = (value) => `${currency}${Number(value).toFixed(2)}`;
+  const formatPrice = (value: number) => `${currency}${Number(value).toFixed(2)}`;
 
   return (
     <article
@@ -134,7 +137,9 @@ const ProductCard = ({ product, categoryKey }) => {
           </div>
 
           <div className="flex items-center gap-1.5 text-right">
-            {hasOriginalPrice && lineOriginalPrice > lineSalePrice && currentQuantity > 0 && (
+            {lineOriginalPrice !== null &&
+              lineOriginalPrice > lineSalePrice &&
+              currentQuantity > 0 && (
               <span className="text-[16px] text-[#D8392B] line-through">
                 {formatPrice(lineOriginalPrice)}
               </span>

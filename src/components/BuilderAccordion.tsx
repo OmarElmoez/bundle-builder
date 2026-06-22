@@ -1,6 +1,7 @@
 import { BUILDER_STEPS } from "@/constants";
 import { useState } from "react";
 import AccordionItem from "./AccordionItem";
+import type { BuilderStep } from "@/types/builder";
 
 const BuilderAccordion = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(1);
@@ -9,7 +10,7 @@ const BuilderAccordion = () => {
     setOpenIndex((prevIndex) => (prevIndex === id ? null : id));
   };
 
-  const handleAdvanceToNextStep = (nextStep) => {
+  const handleAdvanceToNextStep = (nextStep?: BuilderStep) => {
     if (nextStep) {
       setOpenIndex(nextStep.id);
     } else {

@@ -2,6 +2,7 @@ import { BUILDER_STEPS } from "@/constants";
 import ProductList from "./ProductList";
 import getStatusText from "@/utils/getStatusText";
 import useBuilderStore from "@/store/useBuilderStore";
+import type { AccordionItemProps } from "@/types/builder";
 
 const totalSteps = BUILDER_STEPS.length;
 
@@ -11,9 +12,8 @@ const AccordionItem = ({
   onToggle,
   onAdvance,
   nextStepTitle,
-}) => {
-
-    const selections = useBuilderStore((state) => state.selections);
+}: AccordionItemProps) => {
+  const selections = useBuilderStore((state) => state.selections);
 
   return (
     <div

@@ -1,4 +1,5 @@
 import SELECTION_KEYS from "@/utils/selection-keys";
+import type { BuilderStep } from "@/types/builder";
 
 export const BUILDER_STEPS = [
   {
@@ -28,4 +29,4 @@ export const BUILDER_STEPS = [
     icon: "/assets/icons/protection.svg",
     selectionKey: SELECTION_KEYS.accessories,
   }
-];
+] satisfies BuilderStep[];

@@ -3,64 +3,16 @@ import { persist } from "zustand/middleware";
 import data from "@/db.json";
 import SELECTION_KEYS, { type CategoryKey } from "@/utils/selection-keys";
 import createItemKey from "@/utils/createItemKey";
-
-type Variant = {
-  color: string;
-  isDefault?: boolean;
-  quantity?: number;
-  thumbnailUrl?: string;
-};
-
-type Product = {
-  id: string;
-  name: string;
-  salePrice?: number;
-  originalPrice?: number | null;
-  imageUrl?: string;
-  frequency?: string;
-  isFree?: boolean;
-  quantity?: number;
-  variants?: Variant[];
-};
-
-type SelectionMap = Record<string, number>;
-
-type CartLineItem = {
-  key: string | null;
-  category: CategoryKey;
-  productId: string;
-  name: string;
-  color: string | null;
-  imageUrl?: string;
-  quantity: number;
-  unitPrice: number;
-  originalPrice: number | null | undefined;
-  frequency: string | null;
-  isFree: boolean;
-  lineTotal: number;
-};
-
-type BuilderStore = {
-  selections: Record<CategoryKey, SelectionMap>;
-  updateQuantity: (args: {
-    category: CategoryKey;
-    productId: string;
-    variantColor?: string | null;
-    delta: number;
-  }) => void;
-  getCartDetails: () => CartLineItem[];
-  getProductTotalQuantity: (category: CategoryKey, productId: string) => number;
-  getCartTotal: () => number;
-};
-
-type DbData = {
-  cameras: Product[];
-  plans: Product[];
-  sensors: Product[];
-  accessories: Product[];
-};
+import type { CartLineItem, DbData, Product } from "@/types/builder";
+import type { BuilderStore } from "./types";
 
 const db = data as DbData;
+const productCollections = {
+  cameras: db.cameras,
+  plans: db.plans,
+  sensors: db.sensors,
+  accessories: db.accessories,
+} satisfies Record<CategoryKey, Product[]>;
 
 const getDefaultProductKey = (product: Product | undefined | null) => {
   if (!product) return null;
@@ -108,10 +60,6 @@ const useBuilderStore = create<BuilderStore>()(
       updateQuantity: ({ category, productId, variantColor, delta }) => {
         set((state) => {
           const key = createItemKey({ productId, variantColor });
-          if (!key) {
-            return state;
-          }
-
           const currentCategory = state.selections[category] || {};
           const currentQty = currentCategory[key] || 0;
 
@@ -143,7 +91,7 @@ const useBuilderStore = create<BuilderStore>()(
             const itemQuantity = Number(quantity);
             const [baseProductId, variantColor] = itemKey.split("::");
             
-            const productArray = db[categoryKey as keyof DbData] || [];
+            const productArray = productCollections[categoryKey as CategoryKey] || [];
             const product = productArray.find((p) => p.id === baseProductId);
             
             if (product) {

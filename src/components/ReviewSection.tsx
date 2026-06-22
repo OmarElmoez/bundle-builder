@@ -1,5 +1,6 @@
 import data from "@/db.json";
 import useBuilderStore from "@/store/useBuilderStore";
+import type { CartLineItem } from "@/types/builder";
 
 const ReviewSection = () => {
   const selections = useBuilderStore((state) => state.selections);
@@ -31,11 +32,11 @@ const ReviewSection = () => {
     Math.max(0, totalOriginalPrice - cartTotal).toFixed(2),
   );
   const hasSavings = totalOriginalPrice > cartTotal;
-  const formatPrice = (value) => `${currency}${Number(value).toFixed(2)}`;
-  const formatSubscriptionPrice = (value, frequency) =>
+  const formatPrice = (value: number) => `${currency}${Number(value).toFixed(2)}`;
+  const formatSubscriptionPrice = (value: number, frequency?: string | null) =>
     `${formatPrice(value)}/${frequency || "mo"}`;
 
-  const groupedItems = cartItems.reduce((acc, item) => {
+  const groupedItems = cartItems.reduce<Record<string, CartLineItem[]>>((acc, item) => {
     if (!acc[item.category]) {
       acc[item.category] = [];
     }
