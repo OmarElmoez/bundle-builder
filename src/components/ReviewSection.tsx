@@ -58,13 +58,14 @@ const ReviewSection = () => {
   }
 
   return (
-    <div className="bg-[#EDF4FF] py-8.75 px-15 rounded-[10px] flex flex-col lg:flex-row gap-10 mt-8.5">
+    <div className="bg-[#EDF4FF] py-3.75 px-5 lg:px-15 md:rounded-[10px] flex flex-col lg:flex-row gap-10 md:mt-8.5">
       <div>
         <header>
-          <h2 className="text-[28px] font-semibold text-[#1F1F1F] mb-1">
+          <p className="text-[#484848] text-[10px] md:text-xs font-medium uppercase tracking-widest lg:hidden">Review</p>
+          <h2 className="text-[28px] font-semibold text-[#1F1F1F] mb-1 mt-6.25">
             Your security system
           </h2>
-          <p className="text-[#1F1F1FBF] text-[16px] font-medium w-[85%] mb-2.5">
+          <p className="text-[#1F1F1FBF] text-xs md:text-sm lg:text-base font-medium w-[85%] mb-2.5">
             Review your personalized protection system designed to keep what
             matters most safe.
           </p>
@@ -76,7 +77,7 @@ const ReviewSection = () => {
               key={category}
               className="border border-[#CED6DE] border-r-0 border-l-0 border-b-0 pt-3.75"
             >
-              <h3 className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-3">
+              <h3 className="text-xs text-[#A8B2BD] uppercase tracking-widest mb-3">
                 {category}
               </h3>
 
@@ -86,16 +87,16 @@ const ReviewSection = () => {
                     key={item.key}
                     className="flex items-center justify-between group gap-4"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className="bg-white p-2 rounded-xl w-14 h-14 flex items-center justify-center shrink-0">
+                    <div className="flex items-center gap-3">
+                      <div className="bg-white p-2 rounded-xl w-10.25 h-10.25 flex items-center justify-center shrink-0">
                         <img
                           src={item.imageUrl}
                           alt={item.name}
                           className="max-w-full max-h-full object-contain"
                         />
                       </div>
-                      <div>
-                        <p className="text-[15px] font-medium text-gray-900">
+                      <div className="flex-1">
+                        <p className="text-xs md:text-sm lg:text-lg font-medium text-[#0B0D10]">
                           {item.name}
                         </p>
                         {item.color && (
@@ -106,8 +107,8 @@ const ReviewSection = () => {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-6">
-                      <div className="flex items-center gap-3">
+                    <div className="flex items-center">
+                      <div className="flex items-center gap-1">
                         <button
                           onClick={() =>
                             !item.isFree &&
@@ -126,7 +127,7 @@ const ReviewSection = () => {
                             &minus;
                           </span>
                         </button>
-                        <span className="text-[14px] font-medium w-4 text-center">
+                        <span className="text-sm font-semibold w-4 text-center">
                           {item.quantity}
                         </span>
                         <button
@@ -149,15 +150,15 @@ const ReviewSection = () => {
                         </button>
                       </div>
 
-                      <div className="flex flex-col items-end min-w-[60px]">
+                      <div className="flex flex-col lg:flex-row lg:gap-2.5 text-xs md:text-sm lg:text-base items-end ml-2 max-w-13 md:max-w-none">
                         {((item.isFree && item.unitPrice > 0) ||
                           (item.originalPrice &&
                             item.originalPrice > item.unitPrice)) && (
-                          <span className="text-[12px] text-gray-400 line-through leading-none mb-1">
+                          <span className=" text-[#6F7882] font-medium line-through leading-none">
                             {formatPrice(item.unitPrice * item.quantity)}
                           </span>
                         )}
-                        <span className="text-[15px] font-bold text-[#4f38d4] leading-none">
+                        <span className="font-semibold text-[#4E2FD2] leading-none">
                           {item.isFree ? "FREE" : item.unitPrice === 0 ? "FREE" : `$${item.lineTotal}`}
                         </span>
                       </div>
@@ -170,14 +171,17 @@ const ReviewSection = () => {
 
           {planItem && (
             <div className="pt-3.75 border-t border-[#CED6DE]">
-              <h3 className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-3">
+              <h3 className="md:hidden text-xs text-[#A8B2BD] uppercase tracking-widest mb-3">
+                Home monitoring plan
+              </h3>
+              <h3 className="hidden md:block text-xs text-[#A8B2BD] uppercase tracking-widest mb-3">
                 PLAN
               </h3>
 
               <div className="space-y-0 rounded-2xl">
                 <div className="flex items-center justify-between group gap-4">
-                  <div className="flex items-center min-w-0">
-                    <div className="w-12 h-12 flex items-center justify-center shrink-0">
+                  <div className="flex items-center min-w-0 -mt-2">
+                    <div className="w-10.25 h-10.25 flex items-center justify-start shrink-0">
                       <img
                         src={planItem.imageUrl}
                         alt={planItem.name}
@@ -185,7 +189,7 @@ const ReviewSection = () => {
                       />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[20px] font-bold leading-tight truncate">
+                      <p className="text-sm md:text-base lg:text-xl font-bold leading-tight truncate">
                         <span className="text-black">
                           {planItem.name.split(" ")[0]}
                         </span>{" "}
@@ -196,17 +200,17 @@ const ReviewSection = () => {
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-end min-w-[88px]">
+                  <div className="flex flex-col lg:flex-row lg:gap-2.5 items-end text-xs md:text-sm lg:text-base min-w-22">
                     {planItem.originalPrice &&
                       planItem.originalPrice > planItem.unitPrice && (
-                        <span className="text-[13px] text-gray-400 line-through leading-none mb-1">
+                        <span className="font-medium text-[#6F7882] line-through leading-none">
                           {formatSubscriptionPrice(
                             planItem.originalPrice,
                             planItem.frequency,
                           )}
                         </span>
                       )}
-                    <span className="text-[18px] font-semibold text-[#4E2FD2] leading-none">
+                    <span className=" font-semibold text-[#4E2FD2] leading-none">
                       {formatSubscriptionPrice(
                         planItem.unitPrice,
                         planItem.frequency,
@@ -219,27 +223,27 @@ const ReviewSection = () => {
 
                 <div className="flex items-center justify-between group gap-4 py-2.5">
                   <div className="flex items-center gap-4 min-w-0">
-                    <div className="bg-white rounded-xl w-12 h-12 flex items-center justify-center shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.08)]">
+                    <div className="bg-white rounded-xl w-10.25 h-10.25 flex items-center justify-center shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.08)]">
                       <img
                         src={data.shipping.imageUrl}
                         alt={data.shipping.method}
-                        className="w-8 h-8 object-contain"
+                        className="w-7 h-7 object-contain"
                       />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[16px] font-semibold text-gray-900 leading-tight truncate">
+                      <p className="text-xs md:text-sm lg:text-lg font-medium text-[#0B0D10] leading-tight truncate">
                         {data.shipping.method}
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-end min-w-[88px]">
+                  <div className="flex flex-col items-end lg:flex-row lg:gap-2.5 text-xs md:text-sm lg:text-base min-w-22">
                     {shippingIsFree && shippingPrice > 0 && (
-                      <span className="text-[13px] text-gray-400 line-through leading-none mb-1">
+                      <span className="font-medium text-[#6F7882] line-through leading-none">
                         {formatPrice(shippingPrice)}
                       </span>
                     )}
-                    <span className="text-[18px] font-semibold text-[#4f38d4] leading-none">
+                    <span className="font-semibold text-[#4f38d4] leading-none">
                       {shippingIsFree ? "FREE" : formatPrice(shippingPrice)}
                     </span>
                   </div>
@@ -250,7 +254,7 @@ const ReviewSection = () => {
         </div>
       </div>
 
-      <div className="w-full lg:w-[340px] flex flex-col flex-1 pt-2 lg:pt-16">
+      <div className="w-full lg:w-85 flex flex-col flex-1 pt-2 lg:pt-16">
         <div className="flex flex-col items-end w-full mb-4">
           <div className="flex justify-end w-full items-end mb-2">
             <div className="text-right">
@@ -259,7 +263,7 @@ const ReviewSection = () => {
                   {formatPrice(totalOriginalPrice)}
                 </span>
               )}
-              <span className="text-2xl font-bold text-[#4f38d4]">
+              <span className="text-2xl font-bold text-[#4E2FD2]">
                 {formatPrice(cartTotal)}
               </span>
             </div>
