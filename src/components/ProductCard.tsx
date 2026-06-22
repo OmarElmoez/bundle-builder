@@ -1,5 +1,6 @@
 import useBuilderStore from "@/store/useBuilderStore";
 import createItemKey from "@/utils/createItemKey";
+import data from "@/db.json";
 import { useEffect, useState } from "react";
 
 const ProductCard = ({ product, categoryKey }) => {
@@ -30,8 +31,9 @@ const ProductCard = ({ product, categoryKey }) => {
   const lineOriginalPrice = hasOriginalPrice
     ? Number((product.originalPrice * currentQuantity).toFixed(2))
     : null;
+  const currency = data.currency;
 
-  const formatPrice = (value) => `$${Number(value).toFixed(2)}`;
+  const formatPrice = (value) => `${currency}${Number(value).toFixed(2)}`;
 
   return (
     <article

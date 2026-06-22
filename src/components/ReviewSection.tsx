@@ -12,6 +12,7 @@ const ReviewSection = () => {
   const cartItems = getCartDetails();
   const cartTotal = getCartTotal();
   const shipping = data.shipping;
+  const currency = data.currency;
   const shippingPrice = Number(shipping?.cost ?? 0);
   const shippingIsFree = Boolean(shipping?.isFree);
   const cartOriginalTotal = Number(
@@ -30,7 +31,7 @@ const ReviewSection = () => {
     Math.max(0, totalOriginalPrice - cartTotal).toFixed(2),
   );
   const hasSavings = totalOriginalPrice > cartTotal;
-  const formatPrice = (value) => `$${Number(value).toFixed(2)}`;
+  const formatPrice = (value) => `${currency}${Number(value).toFixed(2)}`;
   const formatSubscriptionPrice = (value, frequency) =>
     `${formatPrice(value)}/${frequency || "mo"}`;
 
@@ -165,7 +166,7 @@ const ReviewSection = () => {
                             ? "FREE"
                             : item.unitPrice === 0
                               ? "FREE"
-                              : `$${item.lineTotal}`}
+                              : formatPrice(item.lineTotal)}
                         </span>
                       </div>
                     </div>
@@ -278,7 +279,7 @@ const ReviewSection = () => {
 
             <div className="flex flex-col md:flex-row md:justify-between items-end md:items-center w-full gap-2 py-2.5">
               <span className="bg-[#4f38d4] text-white text-xs lg:text-base font-medium px-2 py-1 rounded-[3px]">
-                as low as $19.19/mo
+                as low as {formatPrice(19.19)}/mo
               </span>
               <div className="text-right">
                 {hasSavings && (

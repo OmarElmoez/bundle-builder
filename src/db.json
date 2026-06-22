@@ -6,7 +6,6 @@
       "name": "Wyze Cam v4",
       "description": "The clearest Wyze Cam ever made.",
       "originalPrice": 35.98,
-      "isDefault": true,
       "salePrice": 27.98,
       "discountPercent": 22,
       "imageUrl": "/assets/images/wyze-cam-v4.webp",
@@ -35,7 +34,6 @@
       "description": "360° pan and 180° tilt security camera.",
       "originalPrice": 39.98,
       "salePrice": 34.98,
-      "isDefault": true,
       "discountPercent": 12,
       "imageUrl": "/assets/images/wyze-cam-pan-v3.webp",
       "variants": [
