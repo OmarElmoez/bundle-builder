@@ -61,8 +61,10 @@ const ReviewSection = () => {
     <div className="bg-[#EDF4FF] py-3.75 px-5 lg:px-15 md:rounded-[10px] flex flex-col lg:flex-row gap-10 md:mt-8.5">
       <div>
         <header>
-          <p className="text-[#484848] text-[10px] md:text-xs font-medium uppercase tracking-widest lg:hidden">Review</p>
-          <h2 className="text-[28px] font-semibold text-[#1F1F1F] mb-1 mt-6.25">
+          <p className="text-[#484848] text-[10px] md:text-xs font-medium uppercase tracking-widest lg:hidden">
+            Review
+          </p>
+          <h2 className="text-[28px] font-semibold text-[#1F1F1F] mb-1 mt-6.25 lg:mt-0">
             Your security system
           </h2>
           <p className="text-[#1F1F1FBF] text-xs md:text-sm lg:text-base font-medium w-[85%] mb-2.5">
@@ -159,7 +161,11 @@ const ReviewSection = () => {
                           </span>
                         )}
                         <span className="font-semibold text-[#4E2FD2] leading-none">
-                          {item.isFree ? "FREE" : item.unitPrice === 0 ? "FREE" : `$${item.lineTotal}`}
+                          {item.isFree
+                            ? "FREE"
+                            : item.unitPrice === 0
+                              ? "FREE"
+                              : `$${item.lineTotal}`}
                         </span>
                       </div>
                     </div>
@@ -254,41 +260,55 @@ const ReviewSection = () => {
         </div>
       </div>
 
-      <div className="w-full lg:w-85 flex flex-col flex-1 pt-2 lg:pt-16">
-        <div className="flex flex-col items-end w-full mb-4">
-          <div className="flex justify-end w-full items-end mb-2">
-            <div className="text-right">
-              {hasSavings && (
-                <span className="text-sm text-gray-400 line-through mr-2">
-                  {formatPrice(totalOriginalPrice)}
-                </span>
-              )}
-              <span className="text-2xl font-bold text-[#4E2FD2]">
-                {formatPrice(cartTotal)}
+      <div className="w-full md:min-w-121.5 flex flex-col flex-1 pt-2">
+        <div className="flex flex-col items-end w-full mb-1">
+
+          <div className="w-full flex md:flex-col">
+
+            <div className="flex justify-between items-center gap-6.25">
+              <div className="w-19.5 h-19.5 lg:w-32.75 lg:h-32.75 shrink-0">
+                <img src="/assets/images/satisfaction-badge.webp" alt="satisfaction badge" />
+              </div>
+
+              <div className="hidden md:block text-base lg:text-lg text-[#1F1F1F] space-y-2">
+                <h4 className="font-semibold">30-day hassle-free returns</h4>
+                <p>If you're not totally in love with the product, we will refund you 100%.</p>
+              </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row md:justify-between items-end md:items-center w-full gap-2 py-2.5">
+              <span className="bg-[#4f38d4] text-white text-xs lg:text-base font-medium px-2 py-1 rounded-[3px]">
+                as low as $19.19/mo
               </span>
+              <div className="text-right">
+                {hasSavings && (
+                  <span className="text-lg lg:text-[22px] font-medium text-[#6F7882] line-through mr-2">
+                    {formatPrice(totalOriginalPrice)}
+                  </span>
+                )}
+                <span className="text-2xl lg:text-[32px] font-bold text-[#4E2FD2]">
+                  {formatPrice(cartTotal)}
+                </span>
+              </div>
             </div>
           </div>
+
+
           {hasSavings && (
-            <p className="text-[#00a862] text-[12px] font-medium w-full text-center mt-2">
+            <p className="text-[#0AA288] text-xs lg:text-sm font-semibold w-full text-center mt-2">
               Congrats! You're saving {formatPrice(cartSavings)} on your
               security bundle!
             </p>
           )}
         </div>
 
-        <button className="w-full bg-[#4f38d4] text-white py-3.5 rounded-lg font-bold hover:bg-[#3d2ba8] transition-colors mb-3">
+        <button className="w-full bg-[#4f38d4] text-white text-[17px] py-3.5 rounded-sm font-bold font-ttnorms-pro hover:bg-[#3d2ba8] transition-colors">
           Checkout
         </button>
 
-        <button className="w-full text-[13px] text-gray-500 underline hover:text-gray-800 transition-colors">
+        <button className="w-full text-xs md:text-sm text-[#484848] italic underline hover:text-gray-800 transition-colors mt-2">
           Save my system for later
         </button>
-
-        <div className="mt-6 flex justify-center">
-          <span className="bg-[#4f38d4] text-white text-[11px] font-bold px-2 py-1 rounded-full">
-            as low as $19.19/mo
-          </span>
-        </div>
       </div>
     </div>
   );
