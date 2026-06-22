@@ -1,14 +1,15 @@
 import data from "@/db.json";
 import useBuilderStore from "@/store/useBuilderStore";
 import type { CartLineItem } from "@/types/builder";
+import { useState } from "react";
 
 const ReviewSection = () => {
   const selections = useBuilderStore((state) => state.selections);
-  void selections;
-
   const getCartDetails = useBuilderStore((state) => state.getCartDetails);
   const getCartTotal = useBuilderStore((state) => state.getCartTotal);
   const updateQuantity = useBuilderStore((state) => state.updateQuantity);
+  void selections;
+  const [savedSignature, setSavedSignature] = useState<string | null>(null);
 
   const cartItems = getCartDetails();
   const cartTotal = getCartTotal();
@@ -32,7 +33,13 @@ const ReviewSection = () => {
     Math.max(0, totalOriginalPrice - cartTotal).toFixed(2),
   );
   const hasSavings = totalOriginalPrice > cartTotal;
-  const formatPrice = (value: number) => `${currency}${Number(value).toFixed(2)}`;
+  const cartSignature = cartItems
+    .map((item) => `${item.key}:${item.quantity}`)
+    .join("|");
+  const isSaved = savedSignature === cartSignature;
+
+  const formatPrice = (value: number) =>
+    `${currency}${Number(value).toFixed(2)}`;
   const formatSubscriptionPrice = (value: number, frequency?: string | null) =>
     `${formatPrice(value)}/${frequency || "mo"}`;
 
@@ -308,9 +315,24 @@ const ReviewSection = () => {
           Checkout
         </button>
 
-        <button className="w-full text-xs md:text-sm text-[#484848] italic underline hover:text-gray-800 transition-colors mt-2">
-          Save my system for later
-        </button>
+        {isSaved ? (
+          <div className="w-full rounded-[10px] border border-[#8DD3A8] bg-[#EAF8EF] px-4 py-3 mt-2">
+            <p className="text-sm font-semibold text-[#116A3A]">
+              Your system is saved.
+            </p>
+            <p className="text-xs md:text-sm text-[#116A3A]">
+              Change anything and save again to update it.
+            </p>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setSavedSignature(cartSignature)}
+            className="w-full cursor-pointer text-xs md:text-sm text-[#484848] italic underline hover:text-gray-800 transition-colors mt-2"
+          >
+            Save my system for later
+          </button>
+        )}
       </div>
     </div>
   );
