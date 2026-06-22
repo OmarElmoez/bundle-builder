@@ -18,7 +18,7 @@ const BuilderAccordion = () => {
   };
 
   return (
-    <div className="max-w-303.75 mx-auto mt-10 overflow-hidden bg-white space-y-3.25">
+    <div className="mt-10 overflow-hidden bg-white space-y-3.25">
       {BUILDER_STEPS.map((step, index) => {
         const nextStep = BUILDER_STEPS[index + 1];
 

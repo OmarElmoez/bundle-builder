@@ -26,6 +26,14 @@ const ProductCard = ({ product, categoryKey }) => {
   const currentQuantity = useBuilderStore(
     (state) => state.selections[categoryKey]?.[activeKey] || 0
   );
+  const unitSalePrice = Number(product.salePrice ?? 0);
+  const lineSalePrice = Number((unitSalePrice * currentQuantity).toFixed(2));
+  const hasOriginalPrice = typeof product.originalPrice === "number";
+  const lineOriginalPrice = hasOriginalPrice
+    ? Number((product.originalPrice * currentQuantity).toFixed(2))
+    : null;
+
+  const formatPrice = (value) => `$${Number(value).toFixed(2)}`;
 
   return (
     <article
@@ -126,13 +134,13 @@ const ProductCard = ({ product, categoryKey }) => {
           </div>
 
           <div className="flex items-center gap-1.5 text-right">
-            {product.originalPrice && (
+            {hasOriginalPrice && lineOriginalPrice > lineSalePrice && currentQuantity > 0 && (
               <span className="text-[16px] text-[#D8392B] line-through">
-                ${product.originalPrice}
+                {formatPrice(lineOriginalPrice)}
               </span>
             )}
             <span className="text-[16px] text-[#575757]">
-              ${product.salePrice}
+              {formatPrice(lineSalePrice)}
             </span>
           </div>
         </footer>

@@ -76,7 +76,9 @@ const useBuilderStore = create(
                 ? product.variants.find(v => v.color === variantColor)
                 : null;
 
-              const originalPrice = "originalPrice" in product ? product.originalPrice : product.salePrice;
+              const originalPrice = "originalPrice" in product
+                ? product.originalPrice
+                : null;
 
               lineItems.push({
                 key: itemKey,
@@ -100,7 +102,8 @@ const useBuilderStore = create(
       getProductTotalQuantity: (category, productId) => {
         const categoryItems = get().selections[category] || {};
         return Object.entries(categoryItems).reduce((total, [key, qty]) => {
-          return key.startsWith(productId) ? total + qty : total;
+          const isSameProduct = key === productId || key.startsWith(`${productId}::`);
+          return isSameProduct ? total + qty : total;
         }, 0);
       },
 
