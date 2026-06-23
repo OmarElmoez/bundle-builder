@@ -25,7 +25,7 @@ const AccordionItem = ({
         onClick={onToggle}
         className="w-full text-left flex flex-col gap-1.25 focus:outline-none cursor-pointer"
       >
-        <span className="text-[10px] lg:text-[12px] tracking-widest px-3.75 text-gray-500 uppercase font-bold">
+        <span className="text-[10px] lg:text-[12px] tracking-widest px-3.75 text-[#484848] uppercase font-medium">
           {`STEP ${step?.id} OF ${totalSteps}`}
         </span>
 
@@ -41,7 +41,7 @@ const AccordionItem = ({
             </div>
 
             <h2
-              className={`font-semibold text-gray-900 transition-all duration-300 ease-in-out text-[18px] md:text-[22px] lg:text-[28px]`}
+              className={`font-semibold text-gray-900 transition-all duration-300 ease-in-out text-[18px] lg:text-[22px] xl:text-[28px]`}
             >
               {step.title}
             </h2>
