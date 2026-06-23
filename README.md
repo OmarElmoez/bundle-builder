@@ -1,52 +1,78 @@
 # Bundle Builder
 
-Bundle Builder is a React-based product configurator for assembling a home security package. It lets users step through cameras, monitoring plans, sensors, and accessories, then review the live cart summary with pricing, discounts, shipping, and saved-state persistence.
+Bundle Builder is a React-based product configurator for assembling a home security package. It guides users through cameras, monitoring plans, sensors, and accessories, then presents a live review panel with pricing, discounts, shipping, and saved bundle state.
 
-## Purpose
+## Overview
 
-- Guide users through a structured bundle selection flow
-- Show a real-time review panel with selected items and totals
-- Persist selections locally so the current configuration is restored on refresh
+- Step-by-step bundle builder for a home security system
+- Live cart review with quantity controls and price calculations
+- Persistent client-side state so the bundle survives refreshes
 
 ## Tech Stack
 
 - React 19
 - TypeScript
 - Vite
-- Zustand for state management and persistence
-- Tailwind CSS 4 for styling
+- Zustand
+- Tailwind CSS 4
 
-## Installation
+## Setup
+
+Install dependencies:
 
 ```bash
 npm install
 ```
 
-## Development
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-This starts the local Vite development server.
-
 ## Build
+
+Create an optimized production build:
 
 ```bash
 npm run build
 ```
 
-This runs the TypeScript build and produces an optimized production bundle in `dist/`.
-
-## Preview
+Preview the production output locally:
 
 ```bash
 npm run preview
 ```
 
-This serves the production build locally after running `npm run build`.
+## Architecture
+
+- Product and pricing data live in `src/db.json`
+- The bundle state is managed with Zustand and persisted in the browser
+- The UI is split into a builder flow and a review summary
+- Static assets are served from `public` so Vite does not process them as bundled imports
+
+## Decisions
+
+- **State management: Zustand over React Context**
+  - Chosen for its small hook-based API and low boilerplate
+  - Components subscribe to only the slice of state they need, so they re-render only when that selected state changes
+  - This avoids the broader consumer re-renders common with Context, where all consumers can update when the provider value changes even if they do not use the changed key
+  - It also keeps bundle updates and derived cart logic centralized
+
+- **Static assets in `public`**
+  - The asset folder was moved into `public` so images can be referenced with stable URLs
+  - Vite serves files in `public` directly during development and copies them into the production output
+
+- **Data-driven defaults**
+  - Default product variants and quantities are defined in `src/db.json`
+  - Changing the default variant or quantity there updates the rendered bundle correctly
+
+- **TypeScript deprecation handling**
+  - `tsconfig.app.json` includes `"ignoreDeprecations": "6.0"`
+  - This suppresses current deprecation warnings while keeping the existing compiler setup
 
 ## Notes
 
-- Product data, pricing, and shipping details are loaded from `src/db.json`
+- Product images were optimized with Squoosh and converted to WebP
+- Image sizes were reduced from `76KB`, `129KB`, `309KB`, `172KB`, and `128KB` to `10KB`, `21KB`, `57KB`, `18KB`, and `26KB` respectively
 - The current bundle state is stored in the browser using Zustand persistence
