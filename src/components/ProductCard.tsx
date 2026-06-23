@@ -40,7 +40,7 @@ const ProductCard = ({ product, categoryKey }: ProductCardProps) => {
 
   return (
     <article
-      className={`relative flex flex-col gap-4.75 border-2 bg-white rounded-[10px] py-3.75 px-2.75 ${
+      className={`relative flex md:flex-row lg:flex-col gap-4.75 border-2 bg-white rounded-[10px] py-3.75 px-2.75 ${
         isSelected ? "border-[#4E2FD2B2]" : "border-transparent"
       }`}
     >

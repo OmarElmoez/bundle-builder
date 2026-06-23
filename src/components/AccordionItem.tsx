@@ -59,7 +59,7 @@ const AccordionItem = ({
       </button>
 
       <div
-        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+        className={`overflow-auto transition-all duration-300 ease-in-out ${
           isOpen ? "max-h-200 opacity-100 pb-6 px-3.75" : "max-h-0 opacity-0"
         }`}
       >
