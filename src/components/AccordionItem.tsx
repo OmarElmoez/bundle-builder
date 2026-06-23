@@ -1,8 +1,8 @@
 import { BUILDER_STEPS } from "@/constants";
-import ProductList from "./ProductList";
-import getStatusText from "@/utils/getStatusText";
 import useBuilderStore from "@/store/useBuilderStore";
 import type { AccordionItemProps } from "@/types/builder";
+import getStatusText from "@/utils/getStatusText";
+import ProductList from "./ProductList";
 
 const totalSteps = BUILDER_STEPS.length;
 
@@ -48,7 +48,9 @@ const AccordionItem = ({
           </div>
 
           <div className="flex items-center gap-2 text-[#4E2FD2] text-sm">
-            <span className="text-sm font-bold">{getStatusText(selections, step.selectionKey)}</span>
+            <span className="text-sm font-bold">
+              {getStatusText(selections, step.selectionKey)}
+            </span>
             <img
               src="/assets/icons/carrotArrow.svg"
               className={`transition-all duration-300 ${isOpen ? "rotate-180" : "rotate-0"}`}

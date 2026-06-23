@@ -1,7 +1,7 @@
 import { BUILDER_STEPS } from "@/constants";
+import type { BuilderStep } from "@/types/builder";
 import { useState } from "react";
 import AccordionItem from "./AccordionItem";
-import type { BuilderStep } from "@/types/builder";
 
 const BuilderAccordion = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(1);
