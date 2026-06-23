@@ -51,6 +51,25 @@ npm run preview
 - The UI is split into a builder flow and a review summary
 - Static assets are served from `public` so Vite does not process them as bundled imports
 
+## My Workflow (AI-Accelerated)
+
+To maximize development velocity and explore multiple architectural approaches efficiently, this project was built using a structured, AI-assisted workflow. 
+
+Rather than using AI for blind code generation, I established a strict **Architect vs. Executor** framework:
+
+## The Architect (Human Role)
+* **System Design & Architecture:** Defined the core directory structure, state management flow, and component relationships before touching code.
+* **Strategic Decision-Making:** Utilized **Gemini** as a sounding board to stress-test architectural decisions, identify edge cases, and highlight blind spots in the initial design phase.
+
+* **Code Review & QA:** Acted as the ultimate gatekeeper. Every single block of code generated or edited by tooling went through a manual code review to accept, modify, or deny the solution based on performance, type safety, and clean code principles.
+
+### The Executor (AI Role)
+* **Contextual Code Edits:** Utilized **Codex CLI** to execute scoped code modifications within isolated components, adhering strictly to the architecture and context provided by the architect.
+* **Boilerplate & Syntax Automation:** Automated repetitive tasks, minor syntax formatting, and initial component shells to compress development time.
+
+### Why This Workflow?
+This approach decoupled **thinking** from **typing**. By delegating syntax execution to AI under strict supervision, I was able to rapidly prototype and contrast different implementation strategies, ensuring the final codebase is clean, scalable, and built on deliberate technical decisions.
+
 ## Decisions
 
 - **State management: Zustand over React Context**
