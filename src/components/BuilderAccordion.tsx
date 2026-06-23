@@ -19,7 +19,7 @@ const BuilderAccordion = () => {
   };
 
   return (
-    <div className="mt-10 overflow-hidden bg-white space-y-3.25">
+    <div className="mt-5 md:mt-0 overflow-hidden bg-white space-y-3.25">
       {BUILDER_STEPS.map((step, index) => {
         const nextStep = BUILDER_STEPS[index + 1];
 

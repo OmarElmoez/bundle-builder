@@ -67,7 +67,7 @@ const ReviewSection = () => {
   }
 
   return (
-    <div className="bg-[#EDF4FF] py-3.75 px-5 xl:px-15 lg:rounded-[10px] flex flex-col xl:flex-row gap-10 md:mt-8.5 lg:w-150 xl:w-full self-start">
+    <div className="bg-[#EDF4FF] py-3.75 px-5 xl:px-15 lg:rounded-[10px] flex flex-col xl:flex-row gap-10 xl:mt-8.5 lg:w-150 xl:w-full self-start">
       <div>
         <header>
           <p className="text-[#484848] text-[10px] md:text-xs font-medium uppercase tracking-widest lg:hidden">
