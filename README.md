@@ -2,6 +2,8 @@
 
 Bundle Builder is a React-based product configurator for assembling a home security package. It guides users through cameras, monitoring plans, sensors, and accessories, then presents a live review panel with pricing, discounts, shipping, and saved bundle state.
 
+Demo: https://omar-elmoez.howto.rocks/
+
 ## Overview
 
 - Step-by-step bundle builder for a home security system
