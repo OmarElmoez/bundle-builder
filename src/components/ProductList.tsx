@@ -3,13 +3,14 @@ import type { Product, ProductListProps } from "@/types/builder";
 import type { CategoryKey } from "@/utils/selection-keys";
 import ProductCard from "./ProductCard";
 
+const itemsByCategory = {
+  cameras: data.cameras,
+  plans: data.plans,
+  sensors: data.sensors,
+  accessories: data.accessories,
+} satisfies Record<CategoryKey, Product[]>;
+
 const ProductList = ({ category }: ProductListProps) => {
-  const itemsByCategory = {
-    cameras: data.cameras,
-    plans: data.plans,
-    sensors: data.sensors,
-    accessories: data.accessories,
-  } satisfies Record<CategoryKey, Product[]>;
 
   const items = itemsByCategory[category];
 

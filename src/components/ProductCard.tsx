@@ -1,42 +1,17 @@
-import useBuilderStore from "@/store/useBuilderStore";
-import createItemKey from "@/utils/createItemKey";
-import data from "@/db.json";
 import type { ProductCardProps } from "@/types/builder";
-import { useState } from "react";
+import useProductCard from "@/hooks/useProductCard";
 
 const ProductCard = ({ product, categoryKey }: ProductCardProps) => {
-  const updateQuantity = useBuilderStore((state) => state.updateQuantity);
-
-  const totalProductQuantity = useBuilderStore((state) =>
-    state.getProductTotalQuantity(categoryKey, product.id),
-  );
-  const getDefaultVariantColor = () =>
-    product.variants?.find((variant) => variant.isDefault)?.color ??
-    product.variants?.[0]?.color ??
-    null;
-
-  const [activeColor, setActiveColor] = useState(getDefaultVariantColor);
-
-  const activeKey = createItemKey({
-    productId: product.id,
-    variantColor: activeColor,
-  });
-  const isSelected = totalProductQuantity > 0;
-
-  const currentQuantity = useBuilderStore(
-    (state) => state.selections[categoryKey]?.[activeKey] || 0
-  );
-  const unitSalePrice = Number(product.salePrice ?? 0);
-  const lineSalePrice = Number((unitSalePrice * currentQuantity).toFixed(2));
-  const originalPrice =
-    typeof product.originalPrice === "number" ? product.originalPrice : null;
-  const lineOriginalPrice =
-    originalPrice === null
-      ? null
-      : Number((originalPrice * currentQuantity).toFixed(2));
-  const currency = data.currency;
-
-  const formatPrice = (value: number) => `${currency}${Number(value).toFixed(2)}`;
+  const {
+    activeColor,
+    currentQuantity,
+    formatPrice,
+    handleQuantityChange,
+    isSelected,
+    lineOriginalPrice,
+    lineSalePrice,
+    setActiveColor,
+  } = useProductCard({ product, categoryKey });
 
   return (
     <article
@@ -99,14 +74,7 @@ const ProductCard = ({ product, categoryKey }: ProductCardProps) => {
         <footer className="flex items-center justify-between mt-2.5">
           <div className="flex items-center gap-1">
             <button
-              onClick={() =>
-                updateQuantity({
-                  category: categoryKey,
-                  productId: product.id,
-                  variantColor: activeColor,
-                  delta: -1,
-                })
-              }
+              onClick={() => handleQuantityChange(-1)}
               disabled={currentQuantity === 0}
               className="w-5 h-5 rounded-sm border-2 text-[#525963] disabled:text-[#CED6DE] border-[#F0F4F7] flex justify-center items-center bg-[#F0F4F7] disabled:bg-transparent disabled:border-[#E6EBF0] disabled:cursor-not-allowed"
               aria-label="Decrease quantity"
@@ -119,14 +87,7 @@ const ProductCard = ({ product, categoryKey }: ProductCardProps) => {
             </span>
 
             <button
-              onClick={() =>
-                updateQuantity({
-                  category: categoryKey,
-                  productId: product.id,
-                  variantColor: activeColor,
-                  delta: 1,
-                })
-              }
+              onClick={() => handleQuantityChange(1)}
               className="w-5 h-5 rounded-sm border-2 text-[#525963] disabled:text-[#CED6DE] border-[#F0F4F7] flex justify-center items-center bg-[#F0F4F7] disabled:bg-transparent disabled:border-[#E6EBF0] disabled:cursor-not-allowed"
               aria-label="Increase quantity"
             >

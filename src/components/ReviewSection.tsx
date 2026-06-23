@@ -1,59 +1,23 @@
-import data from "@/db.json";
-import useBuilderStore from "@/store/useBuilderStore";
-import type { CartLineItem } from "@/types/builder";
-import { useState } from "react";
+import useReviewSection from "@/hooks/useReviewSection";
 
 const ReviewSection = () => {
-  const selections = useBuilderStore((state) => state.selections);
-  const getCartDetails = useBuilderStore((state) => state.getCartDetails);
-  const getCartTotal = useBuilderStore((state) => state.getCartTotal);
-  const updateQuantity = useBuilderStore((state) => state.updateQuantity);
-  void selections;
-  const [savedSignature, setSavedSignature] = useState<string | null>(null);
-
-  const cartItems = getCartDetails();
-  const cartTotal = getCartTotal();
-  const shipping = data.shipping;
-  const currency = data.currency;
-  const shippingPrice = Number(shipping?.cost ?? 0);
-  const shippingIsFree = Boolean(shipping?.isFree);
-  const cartOriginalTotal = Number(
-    cartItems
-      .reduce(
-        (sum, item) =>
-          sum + Number(item.originalPrice ?? item.unitPrice) * item.quantity,
-        0,
-      )
-      .toFixed(2),
-  );
-  const totalOriginalPrice = Number(
-    (cartOriginalTotal + (shippingIsFree ? shippingPrice : 0)).toFixed(2),
-  );
-  const cartSavings = Number(
-    Math.max(0, totalOriginalPrice - cartTotal).toFixed(2),
-  );
-  const hasSavings = totalOriginalPrice > cartTotal;
-  const cartSignature = cartItems
-    .map((item) => `${item.key}:${item.quantity}`)
-    .join("|");
-  const isSaved = savedSignature === cartSignature;
-
-  const formatPrice = (value: number) =>
-    `${currency}${Number(value).toFixed(2)}`;
-  const formatSubscriptionPrice = (value: number, frequency?: string | null) =>
-    `${formatPrice(value)}/${frequency || "mo"}`;
-
-  const groupedItems = cartItems.reduce<Record<string, CartLineItem[]>>((acc, item) => {
-    if (!acc[item.category]) {
-      acc[item.category] = [];
-    }
-    acc[item.category].push(item);
-    return acc;
-  }, {});
-  const productGroups = Object.entries(groupedItems).filter(
-    ([category]) => category !== "plans",
-  );
-  const planItem = groupedItems.plans?.[0] || null;
+  const {
+    cartItems,
+    cartSavings,
+    cartTotal,
+    formatPrice,
+    formatSubscriptionPrice,
+    handleItemQuantityChange,
+    hasSavings,
+    isSaved,
+    planItem,
+    productGroups,
+    saveSystem,
+    shipping,
+    shippingIsFree,
+    shippingPrice,
+    totalOriginalPrice,
+  } = useReviewSection();
 
   if (cartItems.length === 0) {
     return (
@@ -121,15 +85,7 @@ const ReviewSection = () => {
                     <div className="flex items-center">
                       <div className="flex items-center gap-1">
                         <button
-                          onClick={() =>
-                            !item.isFree &&
-                            updateQuantity({
-                              category: item.category,
-                              productId: item.productId,
-                              variantColor: item.color,
-                              delta: -1,
-                            })
-                          }
+                          onClick={() => handleItemQuantityChange(item, -1)}
                           disabled={item.isFree}
                           className="cursor-pointer w-5 h-5 rounded-sm border-2 text-[#575757] border-[#F0F4F7] flex justify-center items-center bg-white disabled:bg-[#F1F1F2] disabled:border-[#E6EBF0] disabled:cursor-not-allowed"
                           aria-label="Decrease quantity"
@@ -142,15 +98,7 @@ const ReviewSection = () => {
                           {item.quantity}
                         </span>
                         <button
-                          onClick={() =>
-                            !item.isFree &&
-                            updateQuantity({
-                              category: item.category,
-                              productId: item.productId,
-                              variantColor: item.color,
-                              delta: 1,
-                            })
-                          }
+                          onClick={() => handleItemQuantityChange(item, 1)}
                           disabled={item.isFree}
                           className="cursor-pointer w-5 h-5 rounded-sm border-2 text-[#525963] border-[#F0F4F7] flex justify-center items-center bg-white disabled:bg-[#F1F1F2] disabled:border-[#E6EBF0] disabled:cursor-not-allowed"
                           aria-label="Increase quantity"
@@ -240,14 +188,14 @@ const ReviewSection = () => {
                   <div className="flex items-center gap-4 min-w-0">
                     <div className="bg-white rounded-xl w-10.25 h-10.25 flex items-center justify-center shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.08)]">
                       <img
-                        src={data.shipping.imageUrl}
-                        alt={data.shipping.method}
+                        src={shipping.imageUrl}
+                        alt={shipping.method}
                         className="w-7 h-7 object-contain"
                       />
                     </div>
                     <div className="min-w-0">
                       <p className="text-xs lg:text-sm xl:text-lg font-medium text-[#0B0D10] leading-tight truncate">
-                        {data.shipping.method}
+                        {shipping.method}
                       </p>
                     </div>
                   </div>
@@ -271,17 +219,21 @@ const ReviewSection = () => {
 
       <div className="w-full flex flex-col flex-1 pt-2">
         <div className="flex flex-col items-end w-full mb-1">
-
           <div className="w-full flex lg:flex-row xl:flex-col">
-
             <div className="flex justify-between items-center gap-6.25">
               <div className="size-19.5 xl:size-32.75 shrink-0">
-                <img src="/assets/images/satisfaction-badge.webp" alt="satisfaction badge" />
+                <img
+                  src="/assets/images/satisfaction-badge.webp"
+                  alt="satisfaction badge"
+                />
               </div>
 
               <div className="hidden xl:block text-base xl:text-lg text-[#1F1F1F] space-y-2">
                 <h4 className="font-semibold">30-day hassle-free returns</h4>
-                <p>If you're not totally in love with the product, we will refund you 100%.</p>
+                <p>
+                  If you're not totally in love with the product, we will
+                  refund you 100%.
+                </p>
               </div>
             </div>
 
@@ -290,7 +242,7 @@ const ReviewSection = () => {
                 as low as {formatPrice(19.19)}/mo
               </span>
               <div className="text-right">
-                {hasSavings && (
+                {totalOriginalPrice > cartTotal && (
                   <span className="text-lg xl:text-[22px] font-medium text-[#6F7882] line-through mr-2">
                     {formatPrice(totalOriginalPrice)}
                   </span>
@@ -301,7 +253,6 @@ const ReviewSection = () => {
               </div>
             </div>
           </div>
-
 
           {hasSavings && (
             <p className="text-[#0AA288] text-xs xl:text-sm font-semibold w-full text-center mt-2">
@@ -327,7 +278,7 @@ const ReviewSection = () => {
         ) : (
           <button
             type="button"
-            onClick={() => setSavedSignature(cartSignature)}
+            onClick={saveSystem}
             className="w-full cursor-pointer text-xs md:text-sm text-[#484848] italic underline hover:text-gray-800 transition-colors mt-2"
           >
             Save my system for later
