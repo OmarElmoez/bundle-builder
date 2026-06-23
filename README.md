@@ -51,24 +51,19 @@ npm run preview
 - The UI is split into a builder flow and a review summary
 - Static assets are served from `public` so Vite does not process them as bundled imports
 
-## My Workflow (AI-Accelerated)
+## Workflow
 
-To maximize development velocity and explore multiple architectural approaches efficiently, this project was built using a structured, AI-assisted workflow. 
-
-Rather than using AI for blind code generation, I established a strict **Architect vs. Executor** framework:
-
-## The Architect (Human Role)
-* **System Design & Architecture:** Defined the core directory structure, state management flow, and component relationships before touching code.
-* **Strategic Decision-Making:** Utilized **Gemini** as a sounding board to stress-test architectural decisions, identify edge cases, and highlight blind spots in the initial design phase.
-
-* **Code Review & QA:** Acted as the ultimate gatekeeper. Every single block of code generated or edited by tooling went through a manual code review to accept, modify, or deny the solution based on performance, type safety, and clean code principles.
-
-### The Executor (AI Role)
-* **Contextual Code Edits:** Utilized **Codex CLI** to execute scoped code modifications within isolated components, adhering strictly to the architecture and context provided by the architect.
-* **Boilerplate & Syntax Automation:** Automated repetitive tasks, minor syntax formatting, and initial component shells to compress development time.
-
-### Why This Workflow?
-This approach decoupled **thinking** from **typing**. By delegating syntax execution to AI under strict supervision, I was able to rapidly prototype and contrast different implementation strategies, ensuring the final codebase is clean, scalable, and built on deliberate technical decisions.
+- I use the Context7 MCP server so the agent works against the latest updated documentation
+- I use AI to kickstart the implementation, then edit and refine the code manually
+- I keep the final result pixel-perfect while preserving simplicity and clean code
+- I review every change before accepting it into the codebase
+- I use a structured, AI-assisted workflow to maximize development velocity and explore implementation options efficiently
+- I separate architectural thinking from code execution so design decisions stay deliberate
+- I define the core directory structure, state flow, and component relationships before touching code
+- I use AI as a sounding board to stress-test architectural decisions, identify edge cases, and highlight blind spots
+- Every block of generated or edited code is manually reviewed for performance, type safety, and clean code principles
+- I use AI to handle contextual code edits, boilerplate, minor formatting, and initial component shells under strict guidance
+- This approach keeps the final codebase clean, scalable, and built on deliberate technical decisions
 
 ## Decisions
 
