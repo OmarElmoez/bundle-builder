@@ -279,7 +279,7 @@ const ReviewSection = () => {
           <button
             type="button"
             onClick={saveSystem}
-            className="w-full cursor-pointer text-xs md:text-sm text-[#484848] italic underline hover:text-gray-800 transition-colors mt-2"
+            className="w-fit mx-auto cursor-pointer text-xs md:text-sm text-[#484848] italic underline hover:text-gray-800 transition-colors mt-2"
           >
             Save my system for later
           </button>
