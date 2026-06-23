@@ -40,7 +40,7 @@ const ProductCard = ({ product, categoryKey }: ProductCardProps) => {
 
   return (
     <article
-      className={`relative flex md:flex-row lg:flex-col gap-4.75 border-2 bg-white rounded-[10px] py-3.75 px-2.75 ${
+      className={`relative flex lg:flex-row xl:flex-col gap-4.75 border-2 bg-white rounded-[10px] py-3.75 px-2.75 ${
         isSelected ? "border-[#4E2FD2B2]" : "border-transparent"
       }`}
     >
@@ -51,7 +51,7 @@ const ProductCard = ({ product, categoryKey }: ProductCardProps) => {
           </span>
         )}
 
-        <figure className="flex justify-center items-center pt-6 w-38 h-38 mx-auto ">
+        <figure className="flex justify-center items-center pt-6 size-32 xl:size-38 mx-auto ">
           <img src={product.imageUrl} alt={product.name} className="h-full" />
         </figure>
       </header>
@@ -61,7 +61,7 @@ const ProductCard = ({ product, categoryKey }: ProductCardProps) => {
           {product.name}
         </h3>
 
-        <p className="text-[12px] lg:text-[14px] text-[#1F1F1FBF] leading-relaxed mt-2 grow">
+        <p className="text-[12px] xl:text-[14px] text-[#1F1F1FBF] leading-relaxed mt-2 grow">
           {product.description}{" "}
           <a href="#" className="text-[#0000EE] font-medium underline">
             Learn More
@@ -136,7 +136,7 @@ const ProductCard = ({ product, categoryKey }: ProductCardProps) => {
             </button>
           </div>
 
-          <div className="flex items-center gap-1.5 text-right">
+          <div className="flex items-center flex-col xl:flex-row lg:gap-0 xl:gap-1.5 text-right">
             {lineOriginalPrice !== null &&
               lineOriginalPrice > lineSalePrice &&
               currentQuantity > 0 && (

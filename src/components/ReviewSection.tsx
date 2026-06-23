@@ -67,7 +67,7 @@ const ReviewSection = () => {
   }
 
   return (
-    <div className="bg-[#EDF4FF] py-3.75 px-5 xl:px-15 lg:rounded-[10px] flex flex-col xl:flex-row gap-10 md:mt-8.5 lg:w-150 xl:w-full">
+    <div className="bg-[#EDF4FF] py-3.75 px-5 xl:px-15 lg:rounded-[10px] flex flex-col xl:flex-row gap-10 md:mt-8.5 lg:w-150 xl:w-full self-start">
       <div>
         <header>
           <p className="text-[#484848] text-[10px] md:text-xs font-medium uppercase tracking-widest lg:hidden">
@@ -76,7 +76,7 @@ const ReviewSection = () => {
           <h2 className="text-[22px] xl:text-[28px] font-semibold text-[#1F1F1F] mb-1 mt-6.25 lg:mt-0">
             Your security system
           </h2>
-          <p className="text-[#1F1F1FBF] text-xs lg:text-sm xl:text-base font-medium w-[85%] mb-2.5">
+          <p className="text-[#1F1F1FBF] text-xs lg:text-sm xl:text-base font-medium xl:w-[85%] mb-2.5">
             Review your personalized protection system designed to keep what
             matters most safe.
           </p>
